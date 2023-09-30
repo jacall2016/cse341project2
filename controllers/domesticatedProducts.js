@@ -21,6 +21,9 @@ const getAll = async (req, res) => {
 
 const getSingle = async (req, res) => {
     //#swagger.tags=['domesticatedProducts']
+    if (!ObjectId.isValid(req.params.id)) {
+        res.status(400).json('Must use a valid domesticatedProducts id to find a domesticatedProduct')
+    }
     const userId = new ObjectId(req.params.id);
     const result = await mongodb
         .getDatabase()
@@ -60,6 +63,9 @@ const createDomesticatedProduct = async (req,res) => {
 
 const updateDomesticatedProduct = async (req, res) => {
     //#swagger.tags=['domesticatedProducts']
+    if (!ObjectId.isValid(req.params.id)) {
+        res.status(400).json('Must use a valid domesticatedProducts id to update a domesticatedProduct')
+    }
     const domesticatedProductId = new ObjectId(req.params.id);
     const domesticatedProduct = {
         species: req.body.species,
@@ -82,12 +88,15 @@ const updateDomesticatedProduct = async (req, res) => {
 
 const deleterDomesticatedProduct = async (req, res) => {
     //#swagger.tags=['domesticatedProducts']
+    if (!ObjectId.isValid(req.params.id)) {
+        res.status(400).json('Must use a valid domesticatedProducts id to delete a domesticatedProduct')
+    }
     const domesticatedProductId = new ObjectId(req.params.id);
     const response = await mongodb.getDatabase().db().collection('domesticatedProducts').deleteOne({ _id: domesticatedProductId });
     if (response.deletedCount > 0) {
         res.status(204).send();
     } else {
-        res.status(500).json(response.err || 'some error occurred while updating the domesticatedProduct.');
+        res.status(500).json(response.err || 'some error occurred while deleting the domesticatedProduct.');
     }
 };
 

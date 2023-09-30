@@ -63,7 +63,7 @@ Content-Type: application/json
 }
 
 ### PUT recipie
-PUT http://localhost:3000/recipies/6517d6beb6020717c77414ea HTTP/1.1
+PUT http://localhost:3000/recipies/65188ab2d49146395a850647 HTTP/1.1
 Content-Type: application/json
 
 {
@@ -109,7 +109,7 @@ Content-Type: application/json
 }
 
 ### DELETE recipie
-DELETE http://localhost:3000/recipies/6517a0b6d732e533e782c4c4 HTTP/1.1
+DELETE http://localhost:3000/recipies/6517d11be6027e50a749b837 HTTP/1.1
 
 ### DELETE domesticatedProduct
 DELETE http://localhost:3000/domesticatedProducts/6517a02cd732e533e782c4c3 HTTP/1.1

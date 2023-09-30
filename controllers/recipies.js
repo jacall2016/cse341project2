@@ -21,6 +21,9 @@ const getAll = async (req, res) => {
 
 const getSingle = async (req, res) => {
     //#swagger.tags=['recipies']
+    if (!ObjectId.isValid(req.params.id)) {
+        res.status(400).json('Must use a valid recipies id to find a recipie')
+    }
     const userId = new ObjectId(req.params.id);
     const result = await mongodb
         .getDatabase()
@@ -57,6 +60,9 @@ const createRecipie = async (req,res) => {
 
 const updateRecipie = async (req, res) => {
     //#swagger.tags=['recipies']
+    if (!ObjectId.isValid(req.params.id)) {
+        res.status(400).json('Must use a valid recipies id to update a recipie')
+    }
     const recipieId = new ObjectId(req.params.id);
     const recipie = {
         name: req.body.name,
@@ -74,12 +80,15 @@ const updateRecipie = async (req, res) => {
 
 const deleteRecipie = async (req, res) => {
     //#swagger.tags=['recipies']
+    if (!ObjectId.isValid(req.params.id)) {
+        res.status(400).json('Must use a valid recipies id to delete a recipie')
+    }
     const recipieId = new ObjectId(req.params.id);
     const response = await mongodb.getDatabase().db().collection('recipies').deleteOne({ _id: recipieId });
     if (response.deletedCount > 0) {
         res.status(204).send();
     } else {
-        res.status(500).json(response.err || 'some error occurred while updating the recipie.');
+        res.status(500).json(response.err || 'some error occurred while deleting the recipie.');
     }
 };
 
