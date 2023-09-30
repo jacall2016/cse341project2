@@ -18,7 +18,52 @@ const getSingle = async (req, res) => {
     });
 };
 
+const createRecipie = async (req,res) => {
+
+    const recipie = {
+        name: req.body.name,
+        domesticatedProducts: req.body.domesticatedProducts,
+        instructions:req.body.instructions
+    };
+
+    const response = await mongodb.getDatabase().db().collection('recipies').insertOne(recipie);
+    if (response.acknowledged) {
+        res.status(204).send();
+    } else {
+        res.status(500).json(response.err || 'some error occurred while adding the recipie.');
+    }
+};
+
+const updateRecipie = async (req, res) => {
+    const recipieId = new ObjectId(req.params.id);
+    const recipie = {
+        name: req.body.name,
+        domesticatedProducts: req.body.domesticatedProducts,
+        instructions:req.body.instructions
+    };
+
+    const response = await mongodb.getDatabase().db().collection('recipies').replaceOne({ _id: recipieId }, recipie);
+    if (response.modifiedCount > 0) {
+        res.status(204).send();
+    } else {
+        res.status(500).json(response.err || 'some error occurred while updating the recipie.');
+    }
+};
+
+const deleteRecipie = async (req, res) => {
+    const recipieId = new ObjectId(req.params.id);
+    const response = await mongodb.getDatabase().db().collection('recipies').deleteOne({ _id: recipieId });
+    if (response.deletedCount > 0) {
+        res.status(204).send();
+    } else {
+        res.status(500).json(response.err || 'some error occurred while updating the recipie.');
+    }
+};
+
 module.exports = {
     getAll,
-    getSingle
+    getSingle,
+    createRecipie,
+    updateRecipie,
+    deleteRecipie
 }
