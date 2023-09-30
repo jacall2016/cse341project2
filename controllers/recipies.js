@@ -2,6 +2,7 @@ const mongodb = require('../data/database');
 const ObjectId = require('mongodb').ObjectId;
 
 const getAll = async (req, res) => {
+    //#swagger.tags=['recipies']
     const result = await mongodb.getDatabase().db().collection('recipies').find();
     result.toArray().then((recipies) => {
         res.setHeader('Content-Type', 'application/json');
@@ -10,6 +11,7 @@ const getAll = async (req, res) => {
 };
 
 const getSingle = async (req, res) => {
+    //#swagger.tags=['recipies']
     const userId = new ObjectId(req.params.id);
     const result = await mongodb.getDatabase().db().collection('recipies').find({_id: userId });
     result.toArray().then((recipies) => {
@@ -19,7 +21,7 @@ const getSingle = async (req, res) => {
 };
 
 const createRecipie = async (req,res) => {
-
+    //#swagger.tags=['recipies']
     const recipie = {
         name: req.body.name,
         domesticatedProducts: req.body.domesticatedProducts,
@@ -35,6 +37,7 @@ const createRecipie = async (req,res) => {
 };
 
 const updateRecipie = async (req, res) => {
+    //#swagger.tags=['recipies']
     const recipieId = new ObjectId(req.params.id);
     const recipie = {
         name: req.body.name,
@@ -51,6 +54,7 @@ const updateRecipie = async (req, res) => {
 };
 
 const deleteRecipie = async (req, res) => {
+    //#swagger.tags=['recipies']
     const recipieId = new ObjectId(req.params.id);
     const response = await mongodb.getDatabase().db().collection('recipies').deleteOne({ _id: recipieId });
     if (response.deletedCount > 0) {
