@@ -3,8 +3,17 @@ const ObjectId = require('mongodb').ObjectId;
 
 const getAll = async (req, res) => {
     //#swagger.tags=['domesticatedProducts']
-    const result = await mongodb.getDatabase().db().collection('domesticatedProducts').find();
-    result.toArray().then((domesticatedProducts) => {
+    const result = await mongodb
+        .getDatabase()
+        .db()
+        .collection('domesticatedProducts')
+        .find()
+        .toArray((err, lists) => {
+            if (err) {
+                res.status(400).json({ message: err });
+            }
+        })
+        .then((domesticatedProducts) => {
         res.setHeader('Content-Type', 'application/json');
         res.status(200).json(domesticatedProducts);
     });
@@ -13,8 +22,17 @@ const getAll = async (req, res) => {
 const getSingle = async (req, res) => {
     //#swagger.tags=['domesticatedProducts']
     const userId = new ObjectId(req.params.id);
-    const result = await mongodb.getDatabase().db().collection('domesticatedProducts').find({_id: userId });
-    result.toArray().then((domesticatedProducts) => {
+    const result = await mongodb
+        .getDatabase()
+        .db()
+        .collection('domesticatedProducts')
+        .find({_id: userId })
+        .toArray((err, lists) => {
+            if (err) {
+                res.status(400).json({ message: err });
+            }
+        })
+        .then((domesticatedProducts) => {
         res.setHeader('Content-Type', 'application/json');
         res.status(200).json(domesticatedProducts[0]);
     });
