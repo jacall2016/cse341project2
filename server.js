@@ -77,7 +77,3 @@ mongodb.initDb((err) => {
         app.listen(port, () => {console.log(`database is listening and node is running on port ${port}`)});
     }
 });
-
-// add to swagger.json
-// "host": "domesticatedproductoriginsrecipies.onrender.com",
-//"schemes": ["https"],
