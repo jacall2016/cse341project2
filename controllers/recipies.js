@@ -25,20 +25,27 @@ const getSingle = async (req, res) => {
         res.status(400).json('Must use a valid recipies id to find a recipie')
     }
     const userId = new ObjectId(req.params.id);
-    const result = await mongodb
-        .getDatabase()
-        .db()
-        .collection('recipies')
-        .find({_id: userId })
-        .toArray((err, lists) => {
-            if (err) {
-                res.status(400).json({ message: err });
-            }
-        })
-        .then((recipies) => {
-        res.setHeader('Content-Type', 'application/json');
-        res.status(200).json(recipies[0]);
-    });
+
+    try {
+        const result = await mongodb
+            .getDatabase()
+            .db()
+            .collection('recipies')
+            .find({_id: userId })
+            .toArray((err, lists) => {
+                if (err) {
+                    res.status(400).json({ message: err });
+                }
+            })
+            .then((recipies) => {
+            res.setHeader('Content-Type', 'application/json');
+            res.status(200).json(recipies[0]);
+        });
+    } catch (err) {
+        res
+        .status(500)
+        .json(response.err || "An error occured. Please try again.");
+    }
 };
 
 

@@ -25,23 +25,30 @@ const getSingle = async (req, res) => {
         res.status(400).json('Must use a valid domesticatedProducts id to find a domesticatedProduct')
     }
     const userId = new ObjectId(req.params.id);
-    const result = await mongodb
-        .getDatabase()
-        .db()
-        .collection('domesticatedProducts')
-        .find({_id: userId })
-        .toArray((err, lists) => {
-            if (err) {
-                res.status(400).json({ message: err });
-            }
-        })
-        .then((domesticatedProducts) => {
-        res.setHeader('Content-Type', 'application/json');
-        res.status(200).json(domesticatedProducts[0]);
-    });
+    
+    try {
+        const result = await mongodb
+            .getDatabase()
+            .db()
+            .collection('domesticatedProducts')
+            .find({_id: userId })
+            .toArray((err, lists) => {
+                if (err) {
+                    res.status(400).json({ message: err });
+                }
+            })
+            .then((domesticatedProducts) => {
+            res.setHeader('Content-Type', 'application/json');
+            res.status(200).json(domesticatedProducts[0]);
+        });
+    } catch (err) {
+        res
+            .status(500)
+            .json(response.err || "An error occured. Please try again.");
+    }
 };
 
-const createDomesticatedProduct = async (req,res) => {
+const createDomesticatedProduct = async (req, res) => {
     //#swagger.tags=['domesticatedProducts']
     const domesticatedProduct = {
         species: req.body.species,
