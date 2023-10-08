@@ -14,3 +14,6 @@ const endpointsFiles = ['./routes/index.js'];
 
 
 swaggerAutogen(outputFile, endpointsFiles, doc);
+
+//"host": "domesticatedproductoriginsrecipies.onrender.com",
+//"schemes": ["https"],
